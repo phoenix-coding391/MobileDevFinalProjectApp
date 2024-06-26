@@ -1,8 +1,8 @@
 // EditScreen.js
 import React, { useState, useContext } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
-import AppContext from './AppContext';
 import { Picker } from '@react-native-picker/picker';
+import AppContext from './AppContext';
 
 const EditScreen = () => {
   const { descriptions, handleSave } = useContext(AppContext);

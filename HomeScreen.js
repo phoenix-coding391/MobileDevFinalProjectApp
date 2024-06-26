@@ -16,7 +16,7 @@ const imagesForDisplay = {
   },
 };
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const { descriptions } = useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageDescription, setImageDescription] = useState('');
@@ -40,7 +40,7 @@ export default function HomeScreen() {
       </Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -61,3 +61,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default HomeScreen;
