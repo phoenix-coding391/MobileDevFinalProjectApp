@@ -1,4 +1,3 @@
-// EditScreen.js
 import React, { useState, useContext } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { Picker } from '@react-native-picker/picker';

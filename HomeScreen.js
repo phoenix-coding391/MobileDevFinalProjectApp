@@ -1,4 +1,3 @@
-// HomeScreen.js
 import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import ImageSelector from './ImageSelector';

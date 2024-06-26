@@ -1,4 +1,3 @@
-// NavBar.js
 import React, { useContext } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
 import AppContext from './AppContext';
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#f0f0f0', // Example background color
+    backgroundColor: '#f0f0f0',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },

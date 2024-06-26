@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppProvider } from './AppContext';
