@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import ImageSelector from './ImageSelector';
 import AppContext from './AppContext';
+import { initializeDatabase } from './DatabaseConnection'; // Adjusted import
 
 const imagesForDisplay = {
   ds3: {
@@ -19,6 +20,14 @@ const HomeScreen = () => {
   const { descriptions } = useContext(AppContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageDescription, setImageDescription] = useState('');
+
+   useEffect(() => {
+      const initDB = async () => {
+        await initializeDatabase();
+      };
+
+      initDB();
+    }, []);
 
   const handleImageSelection = (imageKey) => {
     setSelectedImage(imagesForDisplay[imageKey].src);
