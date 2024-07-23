@@ -1,61 +1,149 @@
-import React, { useState, useContext } from 'react';
-import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AppContext from './AppContext';
 
 const EditScreen = () => {
   const { descriptions, handleSave } = useContext(AppContext);
-  const [selectedGame, setSelectedGame] = useState('ds3');
-  const [text, setText] = useState(descriptions['ds3']);
+  const [selectedGame, setSelectedGame] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [gameplayMechanics, setGameplayMechanics] = useState('');
+  const [setting, setSetting] = useState('');
+  const [storytelling, setStorytelling] = useState('');
+  const [enjoyability, setEnjoyability] = useState('');
+  const [position, setPosition] = useState('');
+  const [coverArtUrl, setCoverArtUrl] = useState('');
 
-  const handleGameChange = (game) => {
-    setSelectedGame(game);
-    setText(descriptions[game]);
+  useEffect(() => {
+    if (selectedGame && selectedGame !== 'new' && descriptions[selectedGame]) {
+      const game = descriptions[selectedGame];
+      setName(game.name);
+      setDescription(game.description);
+      setGameplayMechanics(game.gameplayMechanics.toString());
+      setSetting(game.setting.toString());
+      setStorytelling(game.storytelling.toString());
+      setEnjoyability(game.enjoyability.toString());
+      setPosition(game.position);
+      setCoverArtUrl(game.coverArtUrl);
+    } else if (selectedGame === 'new') {
+      // Reset fields for new game
+      setName('');
+      setDescription('');
+      setGameplayMechanics('');
+      setSetting('');
+      setStorytelling('');
+      setEnjoyability('');
+      setPosition('');
+      setCoverArtUrl('');
+    }
+  }, [selectedGame, descriptions]);
+
+  const handleSavePress = () => {
+    handleSave(
+      selectedGame === 'new' ? name : selectedGame, // Use the input name for new entries
+      description,
+      gameplayMechanics,
+      setting,
+      storytelling,
+      enjoyability,
+      position,
+      coverArtUrl
+    );
   };
 
   return (
     <View style={styles.container}>
-      <Text>Edit your top 3 games list</Text>
-      <Picker
-        selectedValue={selectedGame}
-        style={styles.picker}
-        onValueChange={handleGameChange}
-      >
-        <Picker.Item label="Dark Souls 3" value="ds3" />
-        <Picker.Item label="Elden Ring" value="er" />
-        <Picker.Item label="Bloodborne" value="bb" />
-      </Picker>
+      {selectedGame === 'new' ? (
+        <>
+          <Text>Enter New Game Name:</Text>
+          <TextInput
+            placeholder="Game Name"
+            value={name}
+            onChangeText={setName}
+            style={styles.input}
+          />
+        </>
+      ) : (
+        <>
+          <Text>Select Game to Edit Or Add a New Game:</Text>
+          <Picker
+            selectedValue={selectedGame}
+            onValueChange={(itemValue) => setSelectedGame(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a game" value="" />
+            <Picker.Item label="Add New Game" value="new" />
+            {Object.keys(descriptions).map(gameName => (
+              <Picker.Item key={gameName} label={gameName} value={gameName} />
+            ))}
+          </Picker>
+        </>
+      )}
       <TextInput
+        placeholder="Description"
+        value={description}
+        onChangeText={setDescription}
         style={styles.input}
-        onChangeText={setText}
-        value={text}
-        placeholder="Edit game description"
-        multiline
       />
-      <Button title="Save" onPress={() => handleSave(selectedGame, text)} />
+      <TextInput
+        placeholder="Gameplay Mechanics"
+        value={gameplayMechanics}
+        onChangeText={setGameplayMechanics}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Setting"
+        value={setting}
+        onChangeText={setSetting}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Storytelling"
+        value={storytelling}
+        onChangeText={setStorytelling}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Enjoyability"
+        value={enjoyability}
+        onChangeText={setEnjoyability}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Position"
+        value={position}
+        onChangeText={setPosition}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Cover Art URL"
+        value={coverArtUrl}
+        onChangeText={setCoverArtUrl}
+        style={styles.input}
+      />
+      <Button title="Save" onPress={handleSavePress} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 16,
   },
   picker: {
     height: 50,
-    width: 200,
+    width: '100%',
+    marginBottom: 16,
   },
   input: {
-    height: 100,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    width: '80%',
-    textAlignVertical: 'top',
+    borderBottomWidth: 1,
+    marginBottom: 8,
+    padding: 8,
   },
 });
 

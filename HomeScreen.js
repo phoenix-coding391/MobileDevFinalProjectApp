@@ -1,51 +1,57 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import ImageSelector from './ImageSelector';
+import React, { useContext, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import AppContext from './AppContext';
-import { initializeDatabase } from './DatabaseConnection'; // Adjusted import
-
-const imagesForDisplay = {
-  ds3: {
-    src: require('./assets/Dark_souls_3_cover_art.jpg'),
-  },
-  er: {
-    src: require('./assets/Elden_Ring_Box_art.jpg'),
-  },
-  bb: {
-    src: require('./assets/Bloodborne_Cover_Art.jpg'),
-  },
-};
 
 const HomeScreen = () => {
   const { descriptions } = useContext(AppContext);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imageDescription, setImageDescription] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [gameList, setGameList] = useState([]);
 
-   useEffect(() => {
-      const initDB = async () => {
-        await initializeDatabase();
-      };
+  useEffect(() => {
+    // Sort games based on position and update gameList
+    const sortedGames = Object.values(descriptions).sort((a, b) => {
+      const positionOrder = ['1st', '2nd', '3rd']; // Define your position order here
+      return positionOrder.indexOf(a.position) - positionOrder.indexOf(b.position);
+    });
+    setGameList(sortedGames);
+  }, [descriptions]);
 
-      initDB();
-    }, []);
-
-  const handleImageSelection = (imageKey) => {
-    setSelectedImage(imagesForDisplay[imageKey].src);
-    setImageDescription(descriptions[imageKey]);
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % gameList.length);
   };
+
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + gameList.length) % gameList.length);
+  };
+
+  const currentGame = gameList[currentIndex];
 
   return (
     <View style={styles.container}>
-      {selectedImage && (
-        <>
-          <Image style={styles.image} source={selectedImage} />
-          <Text style={styles.imageText}>{imageDescription}</Text>
-        </>
+      {currentGame ? (
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <Image style={styles.image} source={{ uri: currentGame.coverArtUrl }} />
+          <Text style={styles.gameName}>{currentGame.name}</Text>
+          <Text style={styles.imageText}>{currentGame.description}</Text>
+          <Text style={styles.detailText}>Gameplay Mechanics: {currentGame.gameplayMechanics}</Text>
+          <Text style={styles.detailText}>Setting: {currentGame.setting}</Text>
+          <Text style={styles.detailText}>Storytelling: {currentGame.storytelling}</Text>
+          <Text style={styles.detailText}>Enjoyability: {currentGame.enjoyability}</Text>
+          <View style={styles.navigation}>
+            <TouchableOpacity onPress={handlePrevious} style={styles.navButton}>
+              <Text style={styles.navButtonText}>{'<'}</Text>
+            </TouchableOpacity>
+            <Text style={styles.pageNumber}>
+              {currentIndex + 1} / {gameList.length}
+            </Text>
+            <TouchableOpacity onPress={handleNext} style={styles.navButton}>
+              <Text style={styles.navButtonText}>{'>'}</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      ) : (
+        <Text>No games available</Text>
       )}
-      <ImageSelector onSelectImage={handleImageSelection} />
-      <Text style={styles.imageText}>
-        Tap On Each Icon To View Its Corresponding Game's Status In My Personal List Of The Top 3 Souls And Souls-Like Games
-      </Text>
     </View>
   );
 };
@@ -56,17 +62,48 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    textAlign: 'center',
+    padding: 16,
+  },
+  scrollViewContent: {
+    alignItems: 'center',
   },
   image: {
     width: 400,
     height: 400,
+    marginBottom: 10,
+  },
+  gameName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   imageText: {
-    marginTop: 10,
     fontSize: 16,
     color: '#333',
     textAlign: 'center',
+    marginBottom: 10,
+  },
+  detailText: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  navigation: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  navButton: {
+    padding: 10,
+  },
+  navButtonText: {
+    fontSize: 24,
+    color: '#007bff',
+  },
+  pageNumber: {
+    fontSize: 18,
+    marginHorizontal: 20,
   },
 });
 

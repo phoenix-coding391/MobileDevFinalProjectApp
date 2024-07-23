@@ -8,7 +8,12 @@ import AppContext from './AppContext';
 
 const Content = () => {
   const { currentView } = React.useContext(AppContext);
-  return currentView === 'Home' ? <HomeScreen /> : <EditScreen />;
+
+  if (typeof currentView === 'object' && currentView.view === 'Edit') {
+    return <EditScreen gameName={currentView.gameName} />;
+  }
+
+  return <HomeScreen />;
 };
 
 export default function App() {
