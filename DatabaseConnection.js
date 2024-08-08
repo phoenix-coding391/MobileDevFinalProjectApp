@@ -34,12 +34,8 @@ const selectFromDatabase = async (gameName) => {
     return result;
 };
 
-
-//Test purposes to view specific data
-selectFromDatabase('Bloodborne').then(result => console.log(result[0].description));
-
 const getConnection = () => {
-  return db; // Return the already opened database connection
+  return db;
 };
 
 export { getConnection, initializeDatabase, selectFromDatabase };

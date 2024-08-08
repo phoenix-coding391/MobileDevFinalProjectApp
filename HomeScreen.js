@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Image, Text } from '@rneui/themed';
 import AppContext from './AppContext';
 
 const HomeScreen = () => {
@@ -8,9 +9,8 @@ const HomeScreen = () => {
   const [gameList, setGameList] = useState([]);
 
   useEffect(() => {
-    // Sort games based on position and update gameList
     const sortedGames = Object.values(descriptions).sort((a, b) => {
-      const positionOrder = ['1st', '2nd', '3rd']; // Define your position order here
+      const positionOrder = ['1st', '2nd', '3rd'];
       return positionOrder.indexOf(a.position) - positionOrder.indexOf(b.position);
     });
     setGameList(sortedGames);

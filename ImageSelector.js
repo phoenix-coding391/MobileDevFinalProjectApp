@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Pressable, Image } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
+import {Image} from '@rneui/themed';
 
 export default function ImageSelector({ onSelectImage }) {
   const [selectedImage, setSelectedImage] = useState(null);

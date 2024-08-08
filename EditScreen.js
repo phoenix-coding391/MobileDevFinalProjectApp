@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import {Button} from '@rneui/base';
+import { Input, Text } from '@rneui/themed';
 import { Picker } from '@react-native-picker/picker';
 import AppContext from './AppContext';
 
@@ -41,7 +43,7 @@ const EditScreen = () => {
 
   const handleSavePress = () => {
     handleSave(
-      selectedGame === 'new' ? name : selectedGame, // Use the input name for new entries
+      selectedGame === 'new' ? name : selectedGame,
       description,
       gameplayMechanics,
       setting,
@@ -80,47 +82,47 @@ const EditScreen = () => {
           </Picker>
         </>
       )}
-      <TextInput
+      <Input
         placeholder="Description"
         value={description}
         onChangeText={setDescription}
         style={styles.input}
       />
-      <TextInput
+      <Input
         placeholder="Gameplay Mechanics"
         value={gameplayMechanics}
         onChangeText={setGameplayMechanics}
         keyboardType="numeric"
         style={styles.input}
       />
-      <TextInput
+      <Input
         placeholder="Setting"
         value={setting}
         onChangeText={setSetting}
         keyboardType="numeric"
         style={styles.input}
       />
-      <TextInput
+      <Input
         placeholder="Storytelling"
         value={storytelling}
         onChangeText={setStorytelling}
         keyboardType="numeric"
         style={styles.input}
       />
-      <TextInput
+      <Input
         placeholder="Enjoyability"
         value={enjoyability}
         onChangeText={setEnjoyability}
         keyboardType="numeric"
         style={styles.input}
       />
-      <TextInput
+      <Input
         placeholder="Position"
         value={position}
         onChangeText={setPosition}
         style={styles.input}
       />
-      <TextInput
+      <Input
         placeholder="Cover Art URL"
         value={coverArtUrl}
         onChangeText={setCoverArtUrl}

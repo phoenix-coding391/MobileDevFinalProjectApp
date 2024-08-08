@@ -6,7 +6,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [currentView, setCurrentView] = useState('Home');
   const [descriptions, setDescriptions] = useState({});
-  const [dbReady, setDbReady] = useState(false); // State to track if DB is ready
+  const [dbReady, setDbReady] = useState(false);
 
   const fetchGames = async () => {
     try {
@@ -40,7 +40,7 @@ export const AppProvider = ({ children }) => {
     const initializeAndFetchGames = async () => {
       try {
         await initializeDatabase();
-        setDbReady(true); // Set DB as ready after initialization
+        setDbReady(true);
         await fetchGames();
       } catch (error) {
         console.error('Failed to initialize database:', error);
@@ -72,7 +72,7 @@ export const AppProvider = ({ children }) => {
       }
 
       setCurrentView('Home');
-      await fetchGames();  // Refresh the descriptions after saving
+      await fetchGames();
     } catch (error) {
       console.error('Failed to save game data:', error);
     }

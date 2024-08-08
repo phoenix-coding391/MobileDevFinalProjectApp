@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import {Button} from '@rneui/base';
 import AppContext from './AppContext';
 
 const NavBar = () => {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingHorizontal: 20,
-    paddingVertical: 50,  // Adjusted padding for better touch area
+    paddingVertical: 50,
     backgroundColor: '#f0f0f0',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
